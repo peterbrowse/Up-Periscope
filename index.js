@@ -1,6 +1,7 @@
-var Twitter = require('twitter'),
-	express = require('express'),
-	app 	= express();
+var Twitter 	= require('twitter'),
+	express 	= require('express'),
+	periscope 	= require('node-periscope-stream'),
+	app 		= express();
  
 var client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -21,14 +22,21 @@ app.listen(app.get('port'), function() {
 	console.log("Node app is running at localhost:" + app.get('port'));
 });
 
-client.stream('statuses/filter', {track: 'twitter'},  function(stream){
-  stream.on('data', function(tweet) {
-    console.log(tweet.text);
+client.stream('statuses/filter', {track: 'LIVE on #Periscope'},  function(stream){
+	stream.on('data', function(tweet) {
+		if(tweet.entities.urls[0].expanded_url.indexOf('periscope.tv/w/') !== -1) {
+			periscope(tweet.entities.urls[0].expanded_url, function(err, details) {	
+			if (err) {
+		    	console.log(err);
+		    	return;
+			}
+			
+			console.log(details);
+		});
+		}
   });
 
   stream.on('error', function(error) {
     console.log(error);
   });
 });
-
-console.log(process.env);
