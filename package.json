@@ -7,7 +7,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "twitter": "1.2.x"
+    "twitter": "1.2.x",
+    "express": "4.12.x"
   },
   "engines": {
     "node": "0.12.x"
