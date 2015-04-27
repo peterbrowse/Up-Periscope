@@ -1,2 +1,2 @@
-# periscopeup
+# Up Periscope
 Periscope Periscope Project
